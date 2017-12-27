@@ -23,15 +23,19 @@ public class Main {
     }
 
     private static void handle(Socket socket) throws IOException {
-        OutputStream outputStream = socket.getOutputStream();
-        final String content = "<!Doctype html><html><head><title>Dummy title</title></head><body>Time is " + new Date() + "</body></html>";
-        String output =
-                "HTTP/1.1 200 OK\r\n" +
-                        "Content-Length: " + content.length() + "\r\n" +
-                        "Content-Type: text/html\r\n" +
-                        "Connection: Closed\r\n" +
-                        "\r\n" +
-                        content;
-        outputStream.write(output.getBytes(Charset.forName("UTF-8")));
+        try {
+            OutputStream outputStream = socket.getOutputStream();
+            final String content = "<!Doctype html><html><head><title>Dummy title</title></head><body>Time is " + new Date() + "</body></html>";
+            String output =
+                    "HTTP/1.1 200 OK\r\n" +
+                            "Content-Length: " + content.length() + "\r\n" +
+                            "Content-Type: text/html\r\n" +
+                            "Connection: Closed\r\n" +
+                            "\r\n" +
+                            content;
+            outputStream.write(output.getBytes(Charset.forName("UTF-8")));
+        } finally {
+            socket.close();
+        }
     }
 }
