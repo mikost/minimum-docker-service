@@ -76,7 +76,7 @@ public class Main {
     }
 
     private static void logToFile(int i, String input, String output) {
-        try (PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter("/tmp/qwerty")))) {
+        try (PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter("/tmp/qwerty", true)))) {
             pw.println(i + ", input: " + input);
             pw.println(i + ", output:" + output);
         } catch (IOException e) {
@@ -84,7 +84,7 @@ public class Main {
         }
     }
     private static void logToFile(String text) {
-        try (PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter("/tmp/qwerty")))) {
+        try (PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter("/tmp/qwerty", true)))) {
             pw.println(text);
         } catch (IOException e) {
 
