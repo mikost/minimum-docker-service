@@ -58,11 +58,9 @@ public class Main {
         } catch (IOException e) {
             input = null;
         }
-        String output;
         try {
-            OutputStream outputStream = socket.getOutputStream();
             final String content = "<!Doctype html><html><head><title>Dummy title</title></head><body>Time is " + new Date() + "</body></html>";
-            output =
+            String output =
                     "HTTP/1.1 200 OK\r\n" +
                             "Content-Length: " + content.length() + "\r\n" +
                             "Content-Type: text/html\r\n" +
@@ -70,6 +68,7 @@ public class Main {
                             "\r\n" +
                             content;
             logToFile(i0, input, output);
+            OutputStream outputStream = socket.getOutputStream();
             outputStream.write(output.getBytes(Charset.forName("UTF-8")));
         } finally {
             socket.close();
