@@ -31,6 +31,7 @@ public class Main {
     private static final AtomicInteger i = new AtomicInteger();
 
     private static void handle(Socket socket) throws IOException {
+        final int i0 = i.getAndIncrement();
         String input;
         socket.setSoTimeout(1000);
         final InputStream inputStream = socket.getInputStream();
@@ -38,7 +39,7 @@ public class Main {
             byte[] b = new byte[1024];
             inputStream.read(b);
             input = new String(b, StandardCharsets.UTF_8);
-            switch (i.getAndIncrement()) {
+            switch (i0) {
                 case 0:
                     try {
                         Thread.sleep(2000);
@@ -72,13 +73,13 @@ public class Main {
         } finally {
             socket.close();
         }
-        logToFile(input, output);
+        logToFile(i0, input, output);
     }
 
-    private static void logToFile(String input, String output) {
+    private static void logToFile(int i, String input, String output) {
         try (PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter("/tmp/qwerty")))) {
-            pw.println("input: " + input);
-            pw.println("output:" + output);
+            pw.println(i + ", input: " + input);
+            pw.println(i + ", output:" + output);
         } catch (IOException e) {
 
         }
