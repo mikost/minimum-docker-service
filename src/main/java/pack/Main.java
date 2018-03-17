@@ -69,11 +69,11 @@ public class Main {
                             "Connection: Closed\r\n" +
                             "\r\n" +
                             content;
+            logToFile(i0, input, output);
             outputStream.write(output.getBytes(Charset.forName("UTF-8")));
         } finally {
             socket.close();
         }
-        logToFile(i0, input, output);
     }
 
     private static void logToFile(int i, String input, String output) {
