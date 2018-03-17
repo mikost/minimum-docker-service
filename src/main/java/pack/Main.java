@@ -11,6 +11,7 @@ import java.net.Socket;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.util.Date;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class Main {
     public static void main(String[] args) throws IOException {
@@ -27,6 +28,8 @@ public class Main {
         }
     }
 
+    private static final AtomicInteger i = new AtomicInteger();
+
     private static void handle(Socket socket) throws IOException {
         String input;
         socket.setSoTimeout(1000);
@@ -35,6 +38,22 @@ public class Main {
             byte[] b = new byte[1024];
             inputStream.read(b);
             input = new String(b, StandardCharsets.UTF_8);
+            switch (i.getAndIncrement()) {
+                case 0:
+                    try {
+                        Thread.sleep(2000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    logToFile("readiness slept 2 sec");
+                    break;
+                case 1:
+                    socket.close();
+                    logToFile("readiness closed socket");
+                    break;
+                default:
+                    break;
+            }
         } catch (IOException e) {
             input = null;
         }
@@ -60,6 +79,13 @@ public class Main {
         try (PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter("/tmp/qwerty")))) {
             pw.println("input: " + input);
             pw.println("output:" + output);
+        } catch (IOException e) {
+
+        }
+    }
+    private static void logToFile(String text) {
+        try (PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter("/tmp/qwerty")))) {
+            pw.println(text);
         } catch (IOException e) {
 
         }
