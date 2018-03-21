@@ -1,4 +1,5 @@
 <project>
+  <!-- Just a comment -->
   <groupId>name.mikkoostlund.openshift</groupId>
   <artifactId>minimum-docker-service</artifactId>
   <version>1.0-SNAPSHOT</version>
